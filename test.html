@@ -1,116 +1,33 @@
 <!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
 <html>
-<head>
-    <meta charset="utf-8">
-    <title>Interactive Map with CSV and Leaflet</title>
-    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/papaparse/papaparse.min.js"></script>
-    <style>
-        body { margin: 0; padding: 0; font-family: Arial, sans-serif; }
-        .container { max-width: 800px; margin: 20px auto; padding: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        #map { height: 400px; }
-        .container h1 {
-    margin-top: 150px;
-    font-size: 4em;
-    margin-bottom: 0px;
-    text-shadow: 1px 1px 1px gray;
-}
-
-    </style>
-</head>
-<body>
-    <h1>Interactive Map with CSV and Leaflet</h1>
-    <div class="container">
-        <div id="map">
-            <h1> hey</h1>
-        </div>
-    </div>
-
-    <script>
-        var map = L.map('map').setView([0, 0], 12); 
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-        }).addTo(map);
-
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                function(position) {
-                    var userLatLng = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                    };
-
-                    // Center map on the user's location
-                    map.setView(userLatLng, 13);
-
-                    // Optionally, add a marker at the user's location
-                    L.marker(userLatLng).addTo(map)
-                        .bindPopup('You are here')
-                        .openPopup();
-                    
-                    // Call function to load markers from CSV around user's location
-                    loadMarkersAroundLocation(userLatLng);
-                },
-                function(error) {
-                    console.error('Error getting user location:', error);
-                    // Handle errors here
-                }
-            );
-        } else {
-            alert('Geolocation is not supported by your browser');
-            // Handle lack of support for Geolocation API
-        }
-
-        // Haversine formula to calculate distance between two points
-        function getDistance(lat1, lon1, lat2, lon2) {
-            const R = 6371; // Radius of the Earth in km
-            const dLat = (lat2 - lat1) * Math.PI / 180;
-            const dLon = (lon2 - lon1) * Math.PI / 180;
-            const a = 
-                0.5 - Math.cos(dLat)/2 + 
-                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
-                (1 - Math.cos(dLon))/2;
-
-            return R * 2 * Math.asin(Math.sqrt(a));
-        }
-
-        function kmToMiles(km) {
-            return km * 0.621371;
-        }
-
-        function loadMarkersAroundLocation(location) {
-            var distanceThreshold = 20; // 5 miles
-
-            Papa.parse("testfood.csv", {
-                download: true,
-                header: true,
-                complete: function(results) {
-                    results.data.forEach(function(row) {
-                        var longitude = parseFloat(row.longitude);
-                        var latitude = parseFloat(row.latitude);
-
-                        var distance = getDistance(
-                            location.lat, location.lng,
-                            latitude, longitude
-                        );
-
-                        if (kmToMiles(distance) <= distanceThreshold) {
-                            var marker = L.marker([latitude, longitude])
-                                .addTo(map)
-                                .bindPopup(`<h3>${row.name}</h3><p>${distance.toFixed(2)} miles away</p>`);
-
-                            marker.on('click', function() {
-                                //window.location.reload()
-                                marker.openPopup();
-                            });
-                        }
-                    });
-                }
-            });
-        }
-    </script>
-</body>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <input type="button" value="Capacity Chart" onclick="parseJwt();">
+        <script>
+            
+                token = "eyJraWQiOiJMc05vVXdaYVNjeExCK1MwaWxqaGlpcnBSbjAxVjE5alByMFdsTTRBWCtJPSIsImFsZyI6IlJTMjU2In0.eyJhdF9oYXNoIjoiczQzbmV1TGxub2hldDJmOEkzNFpZQSIsInN1YiI6ImQ0MjhlNDY4LWIwOTEtNzAwZS03NmM0LTlkZWY5ZTU2NjllMiIsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0xX1lIanhla0czdSIsImN1c3RvbTp2ZW5kb3JfaWQiOiIxMTExMTEiLCJjb2duaXRvOnVzZXJuYW1lIjoidmVuZG9yX2R1bW15Iiwib3JpZ2luX2p0aSI6IjI1ZDkwMWQxLTE3MDYtNDc5MS1hZThlLTlmOWY3NWI1MTY3MyIsImF1ZCI6InQwZ3FvNjhkbjUwM3Qzdmc4NnVyYWdrMHYiLCJ0b2tlbl91c2UiOiJpZCIsImF1dGhfdGltZSI6MTcyMDExNzc0NywiZXhwIjoxNzIwMTIxMzQ3LCJpYXQiOjE3MjAxMTc3NDcsImp0aSI6ImY3MDUwYjg5LTZjZDUtNDk5OS05YjNhLTM3ZTc5MTkzYmM0YyJ9.YIPUO_-gFnqTTmHII_soXxyS7m7TVFcT8zNa9wX7QseeBKGU4BSShXf4xDQJBfWbvv2TxiMPI6b_uLZzN6ElRKU2FKzfaigJn2e_1VOTkvRuJpfaML33-cnHrhqew_MwMVcJFbE_ztDuhScLFuExgRyWtA3CKubNR7dpUe46VLkabk023SHgTs1u_OJDznem0SC0cLDHBRIIXHNzKYDjQQmir7yi6VeJPK87ai_6-hTM6OWFI2a_Hj5VqZFLBNv6__WW7DPdYati1SKwmTUXV9TopVoMEHZCNywzZiEp7g1v54yHcOocu3SSMeqcjvnTICKWCvSq-KyhTsMXThPucw"
+                var base64Url = token.split('.')[1];
+                var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                }).join(''));
+                obj = JSON.parse(jsonPayload)
+                window.localStorage.setItem('vendor_id', obj["custom:vendor_id"])
+                window.location.href = "reciever.html"
+        </script>
+    </body>
 </html>

@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UpdateVendor</title>
+<style>
+/* Global styles */
+/* Step 1: Define the custom font using @font-face */
+@font-face {
+  font-family: 'Bold';
+  src: url('TT Firs Neue Trial Bold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Medium';
+  src: url('TT Firs Neue Trial Medium.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  align-items: center;
+
+  font-family: 'Bold', Arial, sans-serif;
+  
+}
+
+.background {
+  color: white;
+  background-image: linear-gradient(120deg, #f6d365 0%, rgb(253, 160, 133) 100%);
+  transition: background-color 0.5s ease; 
+  background-position: center; /* Center the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
+
+  height: 108vh;
+  object-fit: cover;
+}
+
+.background-tint {
+background-color: rgba(253, 160, 133,0.8);
+background-blend-mode: multiply;
+opacity: 0; /* Initial state with no opacity */
+animation: tintIn  1s forwards; /* Animation with 3s delay and 3s duration */
+
+}
+
+@keyframes tintIn {
+to {
+    opacity: 1; /* Final state with full opacity */
+}
+}
+
+.header {
+  position: relative;
+  color: #000000;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1.5px solid #000000;
+}
+
+.header .logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.menu-icon {
+  cursor: pointer;
+  font-size: 30px;
+}
+.container {
+  text-align: center;
+  padding: 50px;
+  position: relative;
+  background: transparent; 
+  height: 100vh;
+  border-bottom: 1.5px solid #000000;
+}
+
+
+.container h1 {
+  margin-top: 225px;
+  font-size: 4em;
+  margin-bottom: 0px;
+  text-shadow: 2px 2px 2px rgb(255, 0, 0);
+}
+
+.container h2 {
+  font-family: 'Medium';
+  margin-top: 0px;
+  font-size: 3em;
+  text-shadow: 2px 2px 2px rgb(255, 0, 0);
+
+}
+
+
+.o-container {
+text-align: center;
+padding: 50px;
+position: relative;
+background: transparent; 
+width: 100%;
+padding-top: 90%;
+border-bottom: 1.5px solid #000000;
+}
+
+.menu {
+  font-family: 'Medium';
+  display: none;
+  flex-direction: row;
+  align-items: center;
+  gap: 50px;
+  position: absolute;
+  top: 20px;
+  right: 70px;
+}
+
+.menu a {
+  text-decoration: none;
+  color: black;
+  font-size: 1.2em;
+}
+
+.menu a:hover {
+  color: #ffffff;
+}
+
+.grid-container {
+  font-size: 20px;
+  font-family: 'Medium';
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px; 
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 100px;
+}
+
+.grid-item {
+  padding: 20px; 
+  border-radius: 10px; 
+  text-align: center; 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
+  
+  width: 100%; 
+  padding-top: 90%; 
+  position: relative;
+}
+
+.grid-item::after {
+  content: ''; 
+  display: block; 
+  position: absolute; 
+  top: 0; 
+  left: 0;
+  width: 100%; 
+  height: 100%;
+}
+
+  .grid-item:hover::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 40s ease;
+    }
+
+    .grid-item:hover::after {
+      content: "Extra Info";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      opacity: 0;
+      background: linear-gradient(to bottom, rgba(60, 60, 60, 30), rgba(120, 120, 120, 30), rgba(0,0,0,0));
+      border-radius: 10px;
+      transition: opacity 40s ease;
+    }
+
+
+
+    .grid-item1 {
+      padding: 20px; 
+      border-radius: 10px; 
+      text-align: center; 
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      
+      width: 100%;
+      padding-top: 100%;
+      position: relative;
+
+      background-image: url(search-icon.png);
+      background-size: 400px;
+    }
+
+    .grid-item2 {
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center; 
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      
+      width: 100%; 
+      padding-top: 100%; 
+      position: relative; 
+    }
+
+    .grid-item3 {
+      padding: 20px; 
+      border-radius: 10px;
+      text-align: center; 
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
+
+      background-image: url(map-graphic.jpg);
+      background-size: 400px;
+
+      
+      width: 100%; 
+      padding-top: 100%; 
+      position: relative; 
+    }
+    *, *:before, *:after {
+  -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+  }
+  .mouse_scroll {
+  display: block;
+  margin: 0 auto;
+  width: 24px;
+  height: 100px;
+  margin-top: 200px;
+  }
+  .m_scroll_arrows
+  {
+  display: block;
+  width: 5px;
+  height: 5px;
+  -ms-transform: rotate(45deg); /* IE 9 */
+  -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+  transform: rotate(45deg);
+  
+  border-right: 3.6px solid white;
+  border-bottom: 3.6px solid rgb(224, 182, 182);
+  margin: 0 0 3px 4px;
+
+  width: 16px;
+  height: 16px;
+  }
+  .unu
+  {
+  margin-top: 1px;
+  }
+  .unu, .doi, .trei
+  {
+    -webkit-animation: mouse-scroll 1s infinite;
+    -moz-animation: mouse-scroll 1s infinite;
+    animation: mouse-scroll 1s infinite;
+
+  }
+  .unu
+  {
+  -webkit-animation-delay: .1s;
+  -moz-animation-delay: .1s;
+  -webkit-animation-direction: alternate;
+
+  animation-direction: alternate;
+  animation-delay: alternate;
+  }
+  .doi
+  {
+  -webkit-animation-delay: .2s;
+  -moz-animation-delay: .2s;
+  -webkit-animation-direction: alternate;
+
+  animation-delay: .2s;
+  animation-direction: alternate;
+
+  margin-top: -6px;
+  }
+  .mouse {
+  height: 42px;
+  width: 24px;
+  border-radius: 14px;
+  transform: none;
+  border: 4px solid white;
+  top: 170px;
+  }
+  .wheel {
+  height: 5px;
+  width: 2px;
+  display: block;
+  margin: 5px auto;
+  background: red;
+  position: relative;
+
+  height: 4px;
+  width: 4px;
+  border: 2.6px solid rgb(243, 160, 160);
+  -webkit-border-radius: 8px;
+          border-radius: 8px;
+  }
+  .wheel {
+  -webkit-animation: mouse-wheel 0.6s linear infinite;
+  -moz-animation: mouse-wheel 0.6s linear infinite;
+  animation: mouse-wheel 0.6s linear infinite;
+  }
+  @-webkit-keyframes mouse-wheel{
+  0% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    -ms-transform: translateY(0);
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    -webkit-transform: translateY(6px);
+    -ms-transform: translateY(6px);
+    transform: translateY(6px);
+  }
+  }
+  @-moz-keyframes mouse-wheel {
+  0% { top: 1px; }
+  25% { top: 2px; }
+  50% { top: 3px;}
+  75% { top: 2px;}
+  100% { top: 1px;}
+  }
+  @-o-keyframes mouse-wheel {
+
+  0% { top: 1px; }
+  25% { top: 2px; }
+  50% { top: 3px;}
+  75% { top: 2px;}
+  100% { top: 1px;}
+  }
+  @keyframes mouse-wheel {
+
+  0% { top: 1px; }
+  25% { top: 2px; }
+  50% { top: 3px;}
+  75% { top: 2px;}
+  100% { top: 1px;}
+  }
+  @-webkit-keyframes mouse-scroll {
+
+  0%   { opacity: 0;}
+  50%  { opacity: .425;}
+  100% { opacity: 1;}
+  }
+  @-moz-keyframes mouse-scroll {
+
+  0%   { opacity: 0; }
+  50%  { opacity: .475; }
+  100% { opacity: 1; }
+  }
+  @-o-keyframes mouse-scroll {
+
+  0%   { opacity: 0; }
+  50%  { opacity: .45; }
+  100% { opacity: 1; }
+  }
+  @keyframes mouse-scroll {
+
+  0%   { opacity: 0; }
+  50%  { opacity: .5; }
+  100% { opacity: 1; }
+  }
+</style>
+
+<script>
+    function saveData(event) {
+        var formData = {};
+        const vendor_id = localStorage.getItem('vendor_id')
+        formData['id'] = vendor_id
+        formData['address'] = document.getElementById('vendor_address').value
+		    alert(formData);
+        var records = {}
+        records["body"] = formData
+
+        submitForm(JSON.stringify(records))
+    }
+
+
+    // Function to submit the form
+    function submitForm(formData) {
+        //alert(formData);
+        fetch('https://c91dhm43m2.execute-api.us-east-1.amazonaws.com/dev/update', {
+            method: 'POST', // Or 'PUT', 'DELETE', etc.
+            headers: {
+                'Content-Type': 'application/json'
+                // Add any additional headers if needed
+            },
+            body: formData // Convert data to JSON string
+        })
+        .then(response => {
+            // Handle response
+            if (response.ok) {
+                // Request was successful
+                alert('Form submitted successfully!');
+                location.reload();
+            } else {
+                // Request failed
+                alert('Error submitting form!');
+                alert(response)
+            }
+        })
+        .catch(error => {
+            // Handle error
+            console.error('Error:', error);
+            alert('Error submitting form!');
+        });
+    }
+
+
+
+
+</script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/papaparse/papaparse.min.js"></script>
+</head>
+<body>
+<div class="background background-tint">
+      <div class="header">
+       <h1>Update Vendor</h1>
+      </div>
+      <div class="card-body">
+        <!-- Editable Table -->
+        <div class="table-container">
+          <table>
+            <thead>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Address: </td>
+          <td contenteditable="true"><input type="text" id="vendor_address" ></td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- Submit Button -->
+          <button type="button" onClick="saveData(event)">Update</button>
+        </div>
+
+
+      </div>
+</div>
+
+
+</body>
+</html>
