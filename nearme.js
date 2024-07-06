@@ -87,6 +87,7 @@ function updateAddress(event){
     fetch("https://maps.googleapis.com/maps/api/geocode/json?address="+newAddress+"&key=AIzaSyBe8czoVF1c6W0SMR7VYA6dB58aiByQSjE").then(response=>response.json()).then(data=>{
     var newlat = data["results"][0].geometry.location.lat;
     var newlon = data["results"][0].geometry.location.lng;
+    map.flyTo(new L.LatLng(newlat, newlon));
     circle.setLatLng([newlat, newlon]);
     userMarker.setLatLng([newlat, newlon]);
     updateVendorsOnMap(newlat, newlon, circleRadius);
