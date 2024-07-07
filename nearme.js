@@ -91,6 +91,7 @@ function updateAddress(event){
     circle.setLatLng([newlat, newlon]);
     userMarker.setLatLng([newlat, newlon]);
     updateVendorsOnMap(newlat, newlon, circleRadius);
+    userLocation = [newlat, newlon];
 })
 }
 function updateCircleRadius() {
