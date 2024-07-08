@@ -1,0 +1,117 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Truck Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: auto;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        select,
+        textarea {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Food Truck Registration</h2>
+    <form action="RegisterServlet" method="post">
+        <fieldset>
+            <legend>Truck Details</legend>
+            <label for="truck_name">Truck Name:</label>
+            <input type="text" id="truck_name" name="truck_name" required>
+
+            <label for="cuisine_type">Cuisine Type:</label>
+            <select id="cuisine_type" name="cuisine_type" required>
+                <option value="">Select Cuisine Type</option>
+                <option value="Mexican">Mexican</option>
+                <option value="Italian">Italian</option>
+                <option value="Asian">Asian</option>
+                <option value="American">American</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <label for="license_plate">License Plate Number:</label>
+            <input type="text" id="license_plate" name="license_plate" required>
+
+            <label for="contact_email">Contact Email:</label>
+            <input type="email" id="contact_email" name="contact_email" required>
+
+            <label for="contact_phone">Contact Phone Number:</label>
+            <input type="tel" id="contact_phone" name="contact_phone" required>
+        </fieldset>
+
+        <fieldset>
+            <legend>Owner/Operator Details</legend>
+            <label for="owner_name">Owner/Operator Name:</label>
+            <input type="text" id="owner_name" name="owner_name" required>
+
+            <label for="owner_address">Owner/Operator Address:</label>
+            <input type="text" id="owner_address" name="owner_address" required>
+
+            <label for="owner_email">Owner/Operator Email:</label>
+            <input type="email" id="owner_email" name="owner_email" required>
+
+            <label for="owner_phone">Owner/Operator Phone Number:</label>
+            <input type="tel" id="owner_phone" name="owner_phone" required>
+        </fieldset>
+
+        <fieldset>
+            <legend>Food Safety and Compliance</legend>
+            <label for="health_permit">Health Department Permit Number:</label>
+            <input type="text" id="health_permit" name="health_permit" required>
+
+            <label for="insurance_policy">Insurance Policy Number:</label>
+            <input type="text" id="insurance_policy" name="insurance_policy" required>
+
+            <label for="expiration_date">Insurance Expiration Date:</label>
+            <input type="date" id="expiration_date" name="expiration_date" required>
+        </fieldset>
+
+        <input type="submit" value="Submit Registration">
+    </form>
+</div>
+
+</body>
+</html>
