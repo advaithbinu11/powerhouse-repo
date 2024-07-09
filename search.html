@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StrEATS</title>
+    <link rel="stylesheet" href="search.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.814.0.min.js"></script> <!-- AWS SDK -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngeohash/0.6.3/ngeohash.min.js"></script> <!-- ngeohash library -->
+    <script src="https://cdn.jsdelivr.net/npm/latlon-geohash@1.1.0/index.min.js"></script>
+    <script src="https://c91dhm43m2.execute-api.us-east-1.amazonaws.com/dev/getnearby"></script>
+
+</head>
+<body>
+<div class="background background-tint">
+    <div class="header">
+        <div class="logo">StrEATS</div>
+        <div class="menu-icon" onclick="toggleMenu()" id="menu-icon">&#9776;</div>
+        <div class="menu" id="menu">
+            <a href="#home">Home</a>
+            <a href="#search">Search</a>
+            <a href="#nearme">Near Me</a>
+            <a href="#vendoracc">Vendor Account</a>
+            <a href="#login">Login</a>
+        </div>
+    </div>
+    <div class="h4">Search</div>
+
+    <div class="search-bar-container">
+        <input type="text" id="search-bar" placeholder="Search for Vendors..." onkeyup="filterList()">
+    </div>
+
+
+    <div class="super-container">
+
+        <div id="list-container" class="list-container"></div>
+        <div class="info-container">
+            <div class="boxholder">
+                <img src="nofood.png" alt="Click a Marker!">
+                <div class="info-content">
+                    <p id="vendorName"></p>
+                    <p id="vendorAddress"></p>
+                    <p id="vendorPhone"></p>
+                    <p id="vendorId"></p>
+                    <p id="distance"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="h5">Search Radius (Miles)</div>
+    <div class="ucontainer">
+        <input type="range" min="0" max="5" value="1" class="slider" step="0.1" id="range">
+        <div class="value">10</div>
+    </div>
+</div>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/papaparse/papaparse.min.js"></script>
+<script src="search.js"></script>
+</body>
+</html>

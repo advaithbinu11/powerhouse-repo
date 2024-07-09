@@ -1,0 +1,396 @@
+/* Define the custom font using @font-face */
+@font-face {
+    font-family: 'Bold';
+    src: url('TT Firs Neue Trial Bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Medium';
+    src: url('TT Firs Neue Trial Medium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  body, html {
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    font-family: 'Bold', Arial, sans-serif;
+  }
+  
+  /* Map container styles */
+  .super-container {
+    display: flex;
+    height: 600px; /* Set the desired height for the map */
+    width: 80%; /* Make the map take the full width of its container */
+    margin-left: 10%;
+    border: 0px solid red; /* Add a red border around the map */
+    border-radius: 6px;
+    background-color: #e74141;
+    position: absolute;
+  }
+  
+  .h4 {
+    font-family: 'Bold';
+    height: 60px;
+    width: 100%;
+    position: relative;
+    margin: 0 auto;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    text-align: center;
+    font-size: 60px;
+    text-shadow: 2px 2px 2px rgb(255, 47, 47);
+  }
+  
+
+  
+  .list-container {
+    margin: 8px;
+    height: 584px; /* Set the desired height for the map */
+    width: 60%; /* Make the map take the full width of its container */
+    border-radius: 5px;
+  }
+  
+  .h5 {
+    font-family: 'Bold';
+    height: 45px;
+    width: 100%;
+    position: relative;
+    margin: 0 auto;
+    margin-top: 660px;
+    text-align: center;
+    font-size: 30px;
+    text-shadow: 1px 1px 1px rgb(255, 47, 47);
+  }
+  
+  .ucontainer {
+    display: flex;
+    align-items: center;
+    background: #e74141;
+    padding: 1.5% 3%;
+    border-radius: 5px;
+    margin: 5rem auto;
+    margin-top: 10px;
+    width: 74%; /* Width of the outside container */
+    box-shadow: 0px 32px 40px -19px rgba(0,0,0,0.25);
+  }
+  
+  /* The slider itself */
+  .slider {
+    appearance: none;  /* Override default CSS styles */
+    width: 100%; /* Full-width */
+    height: 6px; /* Specified height */
+    background: #ff6060; /* Green background */
+    outline: none; /* Remove outline */
+    border-radius: 5px;
+  }
+  
+  /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+  .slider::-webkit-slider-thumb {
+    appearance: none; /* Override default look */
+    width: 20px; /* Set a specific slider handle width */
+    height: 20px; /* Slider handle height */
+    background: #b01515; /* Green background */
+    border-radius: 50%;
+    cursor: pointer; /* Cursor on hover */
+  }
+  
+  .boxholder img {
+    width: 50%;
+    margin-left: 25%;
+    margin-top: 175px;
+  }
+  
+  .slider::-moz-range-thumb {
+    appearance: none; /* Override default look */
+    width: 20px; /* Set a specific slider handle width */
+    height: 20px; /* Slider handle height */
+    background: #ff6060; /* Green background */
+    border-radius: 50%;
+    cursor: pointer; /* Cursor on hover */
+  }
+  
+  .value {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    margin-left: 1rem;
+    background: white; /* Green background */
+    color: rgb(247, 80, 80);
+    width: 80px;
+    height: 40px;
+    border-radius: 5px;
+  }
+  
+  .background {
+    background-image: url('title-image.jpg');
+    color: white;
+    transition: background-color 0.5s ease; 
+    background-position: center; /* Center the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+    height: 1200px;
+    object-fit: cover;
+  }
+  
+  .background-tint {
+    background-color: rgba(0, 0, 0, 0.6);
+    background-blend-mode: multiply;
+    opacity: 0; /* Initial state with no opacity */
+    animation: tintIn  1s forwards; /* Animation with 3s delay and 3s duration */
+  }
+  
+  @keyframes tintIn {
+    to {
+        opacity: 1; /* Final state with full opacity */
+    }
+  }
+  
+  .header {
+    position: relative;
+    background: #fff;
+    color: #000000;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 5px solid #ff0000;
+  }
+  
+  .header .logo {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .menu-icon {
+    cursor: pointer;
+    font-size: 30px;
+  }
+  
+  .container {
+    text-align: center;
+    padding: 50px;
+    position: relative;
+    background: transparent; 
+    height: 100vh;
+    border-bottom: 1.5px solid #000000;
+  }
+  
+  .container h1 {
+    margin-top: 225px;
+    font-size: 4em;
+    margin-bottom: 0px;
+    text-shadow: 2px 2px 2px rgb(255, 0, 0);
+  }
+  
+  .container h2 {
+    font-family: 'Medium';
+    margin-top: 0px;
+    font-size: 3em;
+    text-shadow: 2px 2px 2px rgb(255, 0, 0);
+  }
+  
+  .o-container {
+    text-align: center;
+    padding: 50px;
+    position: relative;
+    background: transparent; 
+    width: 100%;
+    padding-top: 90%;
+    border-bottom: 1.5px solid #000000;
+  }
+  
+  .menu {
+    font-family: 'Medium';
+    display: none;
+    flex-direction: row;
+    align-items: center;
+    gap: 50px;
+    position: absolute;
+    top: 20px;
+    right: 70px;
+  }
+  
+  /* Add your custom font style to the Leaflet popup content */
+  .leaflet-popup-content {
+    font-family: 'Medium', sans-serif; /* Replace 'Arial' with your desired font */
+    font-size: 20px; /* Adjust the font size as needed */
+    color: #333; /* Change the text color */
+    text-align: center;
+  }
+  
+  /* Add your custom font style to the Leaflet popup content wrapper */
+  .leaflet-popup-content-wrapper {
+    background-color: #ffaeae; /* Change the background color */
+    padding: 10px; /* Adjust the padding */
+    width: 350px;
+    border-radius: 5px; /* Add rounded corners */
+  }
+  
+  .leaflet-popup-content .popup-title {
+    font-family: 'Bold', sans-serif; /* Replace 'Arial' with your desired font */
+    font-size: 16px; /* Adjust the font size for the title */
+    color: #333; /* Change the text color */
+  }
+  
+  .leaflet-popup-content .popup-subtitle {
+    font-family: 'Medium', sans-serif; /* Replace 'Arial' with your desired font */
+    font-size: 10px; /* Adjust the font size for the subtitle */
+    color: #666; /* Change the text color */
+  }
+  
+  .menu a {
+    text-decoration: none;
+    color: black;
+    font-size: 1.2em;
+  }
+  
+  .menu a:hover {
+    color: #ffffff;
+  }
+  
+  .info-container {
+    flex: 1;
+    color: #e74141;
+    overflow-y: auto;
+  }
+  
+  .info-container .info-content {
+    display: none;
+  }
+  
+  .info-container.active .info-content {
+    display: block;
+    
+  }
+  
+  
+  
+  .info-container.active .boxholder img {
+    display: none;
+  }
+  
+  .list-title {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.list-subtitle {
+    font-size: 0.9em;
+    color: gray;
+    font-family: 'Medium';
+}
+
+  .list-container {
+    width: 60%;
+
+    height: 584px;
+    overflow-y: auto;
+    background-color: white;
+    color: black;
+    border-radius: 5px;
+    margin-top: 8px;
+}
+
+.list-item {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+    background-color: #FFF;
+}
+
+.list-item:hover {
+    background-color: #f0f0f0;
+}
+
+.info-container {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+}
+
+.info-container.active {
+    display: flex;
+}
+
+.boxholder {
+    display: flex;
+    height: 584px;
+    flex-direction: column;
+    align-items: center;
+    background-color: #e74141;
+    color: black;
+    margin-right: 8px;
+    border-radius: 5px;
+    margin-top: 8px;
+}
+
+.boxholder img {
+    max-width: 100px;
+    margin-bottom: 10px;
+}
+
+.info-content p {
+    margin: 5px 0;
+}
+
+
+
+.search-bar-container {
+    display: flex;
+    align-items: center;
+    background: #e74141;
+    padding: 1.5% 3%;
+    border-radius: 5px;
+    margin: 10px auto;
+    margin-top: 10px;
+    width: 74%; /* Width of the outside container */
+    box-shadow: 0px 32px 40px -19px rgba(0,0,0,0.25);
+}
+
+
+.search-bar-container input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9; /* Background color */
+    color: #333; /* Text color */
+    font-size: 16px; /* Font size */
+    transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition for focus effects */
+    text-align: center;
+    font-family: 'Medium';
+}
+
+.search-bar-container input:focus {
+    border-color: #FFF; /* Border color on focus */
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.25); /* Box shadow on focus */
+    outline: none; /* Remove default outline */
+    text-align: center;
+    font-family: 'Medium';
+}
+
+
+.info-container img {
+    max-width: 100px;
+    margin: 20px 0;
+}
+
+.info-container .info-content {
+    display: none;
+}
+
+.info-container.active .info-content {
+    display: block;
+}
+
+.info-container.active img {
+    display: none;
+}
+
+.info-content p {
+    margin: 5px 0;
+}
