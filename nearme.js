@@ -134,10 +134,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 `;
                 listItem.addEventListener('click', function() {
                     displayVendorInfo({
-                        vendorName: vendorName,
-                        vendorAddress: location.Address,
-                        vendorPhone: location["Phone Number"],
-                        vendorId: location["Vendor ID"]
+                        vendorName: location.["vendorName"],
+                        vendorAddress: location.["vendor_address"],
+                        vendorPhone: location["vendor_number"],
+                        vendorId: location["vendor_id"]
                     }, [lat, lng]);
                 });
                 listContainer.appendChild(listItem);
@@ -149,9 +149,9 @@ document.addEventListener("DOMContentLoaded", function() {
         const infoContainer = document.querySelector('.info-container');
         infoContainer.classList.add('active');
         document.getElementById('vendorName').textContent = `Name: ${vendor.vendorName}`;
-        document.getElementById('vendorAddress').textContent = `Address: ${vendor.vendorAddress}`;
-        document.getElementById('vendorPhone').textContent = `Phone: ${vendor.vendorPhone}`;
-        document.getElementById('vendorId').textContent = `ID: ${vendor.vendorId}`;
+        document.getElementById('vendor_address').textContent = `Address: ${vendor.vendorAddress}`;
+        document.getElementById('vendor_phone').textContent = `Phone: ${vendor.vendorPhone}`;
+        document.getElementById('vendor_id').textContent = `ID: ${vendor.vendorId}`;
 
         if (userLocation) {
             const distance = haversine(userLocation, vendorLocation).toFixed(2);
@@ -233,9 +233,9 @@ document.addEventListener("DOMContentLoaded", function() {
 function displayVendorInfo(vendor, vendorLocation) {
     infoContainer.classList.add('active');
     document.getElementById('vendorName').textContent = `Name: ${vendor.vendorName}`;
-    document.getElementById('vendor_Address').textContent = `Address: ${vendor.vendorAddress}`;
-    document.getElementById('vendor_Phone').textContent = `Phone: ${vendor.vendorPhone}`;
-    document.getElementById('vendor_Id').textContent = `ID: ${vendor.vendorId}`;
+    document.getElementById('vendor_address').textContent = `Address: ${vendor.vendorAddress}`;
+    document.getElementById('vendor_phone').textContent = `Phone: ${vendor.vendorPhone}`;
+    document.getElementById('vendor_id').textContent = `ID: ${vendor.vendorId}`;
     if (userLocation) {
         const distance = haversine(userLocation, vendorLocation).toFixed(2);
         document.getElementById('distance').textContent = `Distance: ${distance} miles`;
@@ -245,9 +245,9 @@ function displayVendorInfo(vendor, vendorLocation) {
 function hideVendorInfo() {
     infoContainer.classList.remove('active');
     document.getElementById('vendorName').textContent = '';
-    document.getElementById('vendorAddress').textContent = '';
-    document.getElementById('vendorPhone').textContent = '';
-    document.getElementById('vendorId').textContent = '';
+    document.getElementById('vendor_address').textContent = '';
+    document.getElementById('vendor_phone')textContent = '';
+    document.getElementById('vendor_id').textContent = '';
     document.getElementById('distance').textContent = '';
 }
 
