@@ -233,9 +233,9 @@ document.addEventListener("DOMContentLoaded", function() {
 function displayVendorInfo(vendor, vendorLocation) {
     infoContainer.classList.add('active');
     document.getElementById('vendorName').textContent = `Name: ${vendor.vendorName}`;
-    document.getElementById('vendorAddress').textContent = `Address: ${vendor.vendorAddress}`;
-    document.getElementById('vendorPhone').textContent = `Phone: ${vendor.vendorPhone}`;
-    document.getElementById('vendorId').textContent = `ID: ${vendor.vendorId}`;
+    document.getElementById('vendor_Address').textContent = `Address: ${vendor.vendorAddress}`;
+    document.getElementById('vendor_Phone').textContent = `Phone: ${vendor.vendorPhone}`;
+    document.getElementById('vendor_Id').textContent = `ID: ${vendor.vendorId}`;
     if (userLocation) {
         const distance = haversine(userLocation, vendorLocation).toFixed(2);
         document.getElementById('distance').textContent = `Distance: ${distance} miles`;
