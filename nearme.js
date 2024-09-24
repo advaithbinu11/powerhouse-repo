@@ -103,75 +103,70 @@ function updateCircleRadius() {
 }
 
 async function updateVendorsOnMap(lat, lon, radius) {
-    const requestBody = {
-        address: `${lat},${lon}`, // Using latitude and longitude as address
-        radius: radius / 1000 // Convert radius to kilometers
-    };
-
+    // Fetch the CSV file
     try {
-        const response = await fetch('https://c91dhm43m2.execute-api.us-east-1.amazonaws.com/dev/getnearby', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(requestBody)
-        });
+        const response = await fetch('data.csv');
+        const csvText = await response.text();
+        
+        // Parse the CSV data
+        Papa.parse(csvText, {
+            header: true,
+            dynamicTyping: true,
+            complete: function(results) {
+                const vendors = results.data;
+                
+                // Clear existing markers except for user marker and circle
+                map.eachLayer(function(layer) {
+                    if (!!layer.toGeoJSON && layer !== userMarker && layer !== circle) {
+                        map.removeLayer(layer);
+                    }
+                });
 
-        const data = await response.json();
-        const jsonResponse = JSON.parse(data.body); // Store and parse the JSON response
+                // Custom icon for food trucks
+                const foodTruckIcon = L.divIcon({
+                    html: '<img src="foodtruck.png" style="width: 20px; height: 20px;" />',
+                    iconSize: [20, 20],
+                    className: '' // Remove default class
+                });
 
-        // Clear existing markers except for user marker and circle
-        map.eachLayer(function(layer) {
-            if (!!layer.toGeoJSON && layer !== userMarker && layer !== circle) { // Check if the layer is a marker and not the user marker or the circle
-                map.removeLayer(layer);
+                // Plot markers for each vendor location
+                vendors.forEach(location => {
+                    const geohash = location.geohash;
+                    const latLng = decodeGeohash(geohash);
+                    if (latLng) {
+                        const { lat, lng } = latLng;
+                        const vendorName = location.vendor_name.replace(/^COA - /, ''); // Remove "COA - " prefix
+                        const marker = L.marker([lat, lng], {
+                            icon: foodTruckIcon,
+                            vendorId: location.vendor_id,
+                            vendorName: vendorName,
+                            vendorAddress: location.vendor_address,
+                            vendorPhone: location.vendor_phone
+                        }).addTo(map)
+                        .bindPopup(`<div class="popup-content">
+                            <div class="popup-title">${vendorName}</div>
+                            <div class="popup-subtitle">${location.vendor_address}</div>
+                        </div>`);                    
+                        marker.on('click', function(e) {
+                            displayVendorInfo(e.target.options, [lat, lng]);
+                            currentMarker = marker;
+                        });
+                    }
+                });
+
+                map.on('click', function() {
+                    if (currentMarker) {
+                        hideVendorInfo();
+                        currentMarker = null;
+                    }
+                });
             }
         });
-
-        // Custom icon for food trucks
-        const foodTruckIcon = L.divIcon({
-            html: '<img src="foodtruck.png" style="width: 20px; height: 20px;" />',
-            iconSize: [20, 20],
-            className: '' // Remove default class
-        });
-
-        // Plot markers for each vendor location
-        if (jsonResponse.list) {
-            jsonResponse.list.forEach(location => {
-                const geohash = location.geohash;
-                const latLng = decodeGeohash(geohash);
-                if (latLng) {
-                    const { lat, lng } = latLng;
-                    const vendorName = location.vendor_name.replace(/^COA - /, ''); // Remove "COA - " prefix
-                    const marker = L.marker([lat, lng], {
-                        icon: foodTruckIcon,
-                        vendorId: location.vendor_id,
-                        vendorName: vendorName,
-                        vendorAddress: location.vendor_address,
-                        vendorPhone: location.vendor_phone
-                    }).addTo(map)
-                    .bindPopup(`<div class="popup-content">
-                        <div class="popup-title">${vendorName}</div>
-                        <div class="popup-subtitle">${location.vendor_address}</div>
-                    </div>`);                    
-                    marker.on('click', function(e) {
-                        displayVendorInfo(e.target.options, [lat, lng]);
-                        currentMarker = marker;
-                    });
-                }
-            });
-        }
-
-        map.on('click', function() {
-            if (currentMarker) {
-                hideVendorInfo();
-                currentMarker = null;
-            }
-        });
-
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Error loading CSV:', error);
     }
 }
+
 
 function displayVendorInfo(vendor, vendorLocation) {
     infoContainer.classList.add('active');
