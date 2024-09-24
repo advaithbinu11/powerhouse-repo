@@ -1,4 +1,4 @@
-"Phone Number","Address","Geohash","permitType",lastCheckup,"Name of Food Truck","Vendor ID"
+"vendor_id","vendor_address","Geohash","permitType",lastCheckup,"vendorName","vendor_id"
 "NA","13215 N US 183 HWY SVRD NB, AUSTIN, TX 78729","9v6mnvup","Mobile Food","04-20-2023","COA - GBJB'S","22225"
 "NA","13422 DESSAU RD, AUSTIN, TX 78660","9v6sfnyc","Mobile Food","04-25-2024","COA - EL POLLO RICO EXPRESS #7","23832",
 "NA","408 E Rundberg Ln, Austin, Texas 78753","9v6s9nb5","Mobile Food","05-09-2024","COA - PUPUSERIA LA BENDICION","23968",
