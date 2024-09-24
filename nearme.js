@@ -103,18 +103,16 @@ function updateCircleRadius() {
 }
 
 async function updateVendorsOnMap(lat, lon, radius) {
-    // Fetch the CSV file
     try {
         const response = await fetch('data.csv');
         const csvText = await response.text();
-        
-        // Parse the CSV data
+
         Papa.parse(csvText, {
             header: true,
             dynamicTyping: true,
             complete: function(results) {
                 const vendors = results.data;
-                
+
                 // Clear existing markers except for user marker and circle
                 map.eachLayer(function(layer) {
                     if (!!layer.toGeoJSON && layer !== userMarker && layer !== circle) {
@@ -123,10 +121,11 @@ async function updateVendorsOnMap(lat, lon, radius) {
                 });
 
                 // Custom icon for food trucks
-                const foodTruckIcon = L.divIcon({
-                    html: '<img src="foodtruck.png" style="width: 20px; height: 20px;" />',
-                    iconSize: [20, 20],
-                    className: '' // Remove default class
+                const foodTruckIcon = L.icon({
+                    iconUrl: 'foodtruck.png',  // Ensure this path is correct
+                    iconSize: [32, 32],        // Set the size of the icon image
+                    iconAnchor: [16, 32],      // Anchor the icon (half width and full height)
+                    popupAnchor: [0, -32],     // Anchor the popup above the icon
                 });
 
                 // Plot markers for each vendor location
@@ -146,7 +145,8 @@ async function updateVendorsOnMap(lat, lon, radius) {
                         .bindPopup(`<div class="popup-content">
                             <div class="popup-title">${vendorName}</div>
                             <div class="popup-subtitle">${location.vendor_address}</div>
-                        </div>`);                    
+                        </div>`);
+                        
                         marker.on('click', function(e) {
                             displayVendorInfo(e.target.options, [lat, lng]);
                             currentMarker = marker;
@@ -166,6 +166,7 @@ async function updateVendorsOnMap(lat, lon, radius) {
         console.error('Error loading CSV:', error);
     }
 }
+
 
 
 function displayVendorInfo(vendor, vendorLocation) {
