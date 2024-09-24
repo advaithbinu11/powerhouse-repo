@@ -102,70 +102,131 @@ function updateCircleRadius() {
     }
 }
 
-async function updateVendorsOnMap(lat, lon, radius) {
-    try {
-        const response = await fetch('data.csv');
-        const csvText = await response.text();
+document.addEventListener("DOMContentLoaded", function() {
+    // Function to read and parse the CSV file using PapaParse
+    Papa.parse("data.csv", {
+        download: true,
+        header: true,
+        complete: function(results) {
+            // Process the parsed CSV data
+            const csvData = results.data;
+            updateVendorsList(csvData);
+        }
+    });
 
-        Papa.parse(csvText, {
-            header: true,
-            dynamicTyping: true,
-            complete: function(results) {
-                const vendors = results.data;
+    function updateVendorsList(data) {
+        const listContainer = document.getElementById('list-container');
+        listContainer.innerHTML = ''; // Clear existing list
 
-                // Clear existing markers except for user marker and circle
-                map.eachLayer(function(layer) {
-                    if (!!layer.toGeoJSON && layer !== userMarker && layer !== circle) {
-                        map.removeLayer(layer);
-                    }
+        // Filter the list based on geohash and radius
+        data.forEach(location => {
+            const geohash = location.Geohash;
+            const latLng = decodeGeohash(geohash);
+            if (latLng) {
+                const { lat, lng } = latLng;
+                const vendorName = location["Name of Food Truck"].replace(/^COA - /, ''); // Remove "COA - " prefix
+                const vendorAddress = location.Address.split(",")[0]; // Extract the street address
+                const listItem = document.createElement('div');
+                listItem.className = 'list-item';
+                listItem.innerHTML = `
+                    <div class="list-title">${vendorName}</div>
+                    <div class="list-subtitle">${vendorAddress}</div>
+                `;
+                listItem.addEventListener('click', function() {
+                    displayVendorInfo({
+                        vendorName: vendorName,
+                        vendorAddress: location.Address,
+                        vendorPhone: location["Phone Number"],
+                        vendorId: location["Vendor ID"]
+                    }, [lat, lng]);
                 });
-
-                // Custom icon for food trucks
-                const foodTruckIcon = L.icon({
-                    iconUrl: 'foodtruck.png',  // Ensure this path is correct
-                    iconSize: [32, 32],        // Set the size of the icon image
-                    iconAnchor: [16, 32],      // Anchor the icon (half width and full height)
-                    popupAnchor: [0, -32],     // Anchor the popup above the icon
-                });
-
-                // Plot markers for each vendor location
-                vendors.forEach(location => {
-                    const geohash = location.geohash;
-                    const latLng = decodeGeohash(geohash);
-                    if (latLng) {
-                        const { lat, lng } = latLng;
-                        const vendorName = location.vendor_name.replace(/^COA - /, ''); // Remove "COA - " prefix
-                        const marker = L.marker([lat, lng], {
-                            icon: foodTruckIcon,
-                            vendorId: location.vendor_id,
-                            vendorName: vendorName,
-                            vendorAddress: location.vendor_address,
-                            vendorPhone: location.vendor_phone
-                        }).addTo(map)
-                        .bindPopup(`<div class="popup-content">
-                            <div class="popup-title">${vendorName}</div>
-                            <div class="popup-subtitle">${location.vendor_address}</div>
-                        </div>`);
-                        
-                        marker.on('click', function(e) {
-                            displayVendorInfo(e.target.options, [lat, lng]);
-                            currentMarker = marker;
-                        });
-                    }
-                });
-
-                map.on('click', function() {
-                    if (currentMarker) {
-                        hideVendorInfo();
-                        currentMarker = null;
-                    }
-                });
+                listContainer.appendChild(listItem);
             }
         });
-    } catch (error) {
-        console.error('Error loading CSV:', error);
     }
-}
+
+    function displayVendorInfo(vendor, vendorLocation) {
+        const infoContainer = document.querySelector('.info-container');
+        infoContainer.classList.add('active');
+        document.getElementById('vendorName').textContent = `Name: ${vendor.vendorName}`;
+        document.getElementById('vendorAddress').textContent = `Address: ${vendor.vendorAddress}`;
+        document.getElementById('vendorPhone').textContent = `Phone: ${vendor.vendorPhone}`;
+        document.getElementById('vendorId').textContent = `ID: ${vendor.vendorId}`;
+
+        if (userLocation) {
+            const distance = haversine(userLocation, vendorLocation).toFixed(2);
+            document.getElementById('distance').textContent = `Distance: ${distance} miles`;
+        }
+    }
+
+    function filterList() {
+        const searchTerm = document.getElementById('search-bar').value.toLowerCase();
+        const listItems = document.querySelectorAll('.list-item');
+
+        listItems.forEach(item => {
+            const title = item.querySelector('.list-title').textContent.toLowerCase();
+            const subtitle = item.querySelector('.list-subtitle').textContent.toLowerCase();
+            if (title.includes(searchTerm) || subtitle.includes(searchTerm)) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    }
+
+    function decodeGeohash(geohash) {
+        const base32 = "0123456789bcdefghjkmnpqrstuvwxyz";
+        const bits = [16, 8, 4, 2, 1];
+        let even = true;
+        let lat = [-90.0, 90.0];
+        let lon = [-180.0, 180.0];
+
+        for (let i = 0; i < geohash.length; i++) {
+            const chr = geohash[i];
+            const idx = base32.indexOf(chr);
+            for (let z = 0; z < 5; z++) {
+                const bit = bits[z];
+                if (even) {
+                    const mid = (lon[0] + lon[1]) / 2;
+                    if (idx & bit) {
+                        lon[0] = mid;
+                    } else {
+                        lon[1] = mid;
+                    }
+                } else {
+                    const mid = (lat[0] + lat[1]) / 2;
+                    if (idx & bit) {
+                        lat[0] = mid;
+                    } else {
+                        lat[1] = mid;
+                    }
+                }
+                even = !even;
+            }
+        }
+        return {
+            lat: (lat[0] + lat[1]) / 2,
+            lng: (lon[0] + lon[1]) / 2
+        };
+    }
+
+    function haversine([lat1, lon1], [lat2, lon2]) {
+        const toRadians = angle => (angle * Math.PI) / 180;
+        const R = 3958.8; // Radius of the Earth in miles
+
+        const dLat = toRadians(lat2 - lat1);
+        const dLon = toRadians(lon2 - lon1);
+
+        const a =
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(toRadians(lat1)) * Math.cos(toRadians(lat2)) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        return R * c; // Distance in miles
+    }
+});
 
 
 
